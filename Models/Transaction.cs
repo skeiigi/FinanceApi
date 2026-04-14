@@ -1,8 +1,11 @@
-﻿namespace FinanceApi.Models
+﻿using System.Text.Json.Serialization;
+
+namespace FinanceApi.Models
 {
     public class Transaction
     {
         public int Id { get; set; }
+        [JsonIgnore]
         public string UserId { get; set; } // Связь с пользователем
         public decimal Amount { get; set; }
         public string Category { get; set; }
