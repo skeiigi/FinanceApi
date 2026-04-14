@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApi.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class AccountController : Controller
     {
         public IActionResult Index()
