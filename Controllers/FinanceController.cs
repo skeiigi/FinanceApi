@@ -32,13 +32,16 @@ public class FinanceController : ControllerBase
     public async Task<ActionResult<Transaction>> AddTransaction(Transaction transaction)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        ModelState.ClearValidationState(nameof(transaction.UserId));
+
         transaction.UserId = userId;
         transaction.Date = DateTime.UtcNow;
 
-        ModelState.Remove("UserId");
-
-        if (!ModelState.IsValid)
+        if (!TryValidateModel(transaction))
+        {
             return BadRequest(ModelState);
+        }
 
         _context.Transactions.Add(transaction);
         await _context.SaveChangesAsync();
