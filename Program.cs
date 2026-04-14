@@ -24,8 +24,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVueApp", policy =>
     {
-        // Добавь сюда адрес своего фронтенда на Vercel после деплоя!
-        policy.WithOrigins("http://localhost:5173", "https://твой-фронтенд.vercel.app")
+        policy.WithOrigins(
+                "http://localhost:5173",
+                "https://ai-financist-vue.vercel.app" // Твой реальный адрес из консоли
+              )
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
