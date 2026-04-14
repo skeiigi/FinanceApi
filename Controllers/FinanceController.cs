@@ -69,9 +69,16 @@ public class FinanceController : ControllerBase
     [HttpPost("goals")]
     public async Task<ActionResult<Goal>> AddGoal(Goal goal)
     {
+        ModelState.Remove("UserId");
+
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         goal.UserId = userId;
         goal.CreatedAt = DateTime.UtcNow;
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
 
         _context.Goals.Add(goal);
         await _context.SaveChangesAsync();
