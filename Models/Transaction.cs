@@ -6,7 +6,7 @@ namespace FinanceApi.Models
     {
         public int Id { get; set; }
         [JsonIgnore]
-        public string UserId { get; set; } // Связь с пользователем
+        public string? UserId { get; set; } // Связь с пользователем
         public decimal Amount { get; set; }
         public string Category { get; set; }
         public string Merchant { get; set; }

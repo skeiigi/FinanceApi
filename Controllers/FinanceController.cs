@@ -29,16 +29,22 @@ public class FinanceController : ControllerBase
     }
 
     [HttpPost("transactions")]
-    public async Task<ActionResult<Transaction>> AddTransaction(Transaction transaction)
+    public async Task<ActionResult<Transaction>> AddTransaction([FromBody] Transaction transaction)
     {
+        // 1. Прямо говорим валидатору ЗАБЫТЬ про ошибку UserId
+        ModelState.Remove("UserId");
+
+        // 2. Достаем ID из токена (это самая надежная часть)
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        ModelState.ClearValidationState(nameof(transaction.UserId));
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized("Не удалось определить пользователя по токену");
 
         transaction.UserId = userId;
         transaction.Date = DateTime.UtcNow;
 
-        if (!TryValidateModel(transaction))
+        // 3. Теперь проверяем всё остальное (Amount, Category и т.д.)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
