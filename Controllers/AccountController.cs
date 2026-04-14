@@ -8,9 +8,11 @@ namespace FinanceApi.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        public IActionResult Index()
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public AccountController(UserManager<IdentityUser> userManager)
         {
-            return View();
+            _userManager = userManager;
         }
 
         [HttpPost("register")]
