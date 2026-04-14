@@ -45,6 +45,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseCors("AllowVueApp");
 
 // --- НОВОЕ: Проверка пульса ---
