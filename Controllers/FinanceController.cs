@@ -35,6 +35,11 @@ public class FinanceController : ControllerBase
         transaction.UserId = userId;
         transaction.Date = DateTime.UtcNow;
 
+        ModelState.Remove("UserId");
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
         _context.Transactions.Add(transaction);
         await _context.SaveChangesAsync();
 
