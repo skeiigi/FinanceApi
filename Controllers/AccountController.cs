@@ -1,6 +1,8 @@
 ﻿using FinanceApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FinanceApi.Controllers
 {
@@ -22,7 +24,7 @@ namespace FinanceApi.Controllers
             {
                 UserName = model.Email,
                 Email = model.Email,
-                PhoneNumber = model.PhoneNumber // Вот здесь происходит магия записи в БД
+                PhoneNumber = model.PhoneNumber
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -30,6 +32,30 @@ namespace FinanceApi.Controllers
             if (result.Succeeded)
             {
                 return Ok(new { Message = "User registered successfully" });
+            }
+
+            return BadRequest(result.Errors);
+        }
+
+        [HttpPost("update")]
+        [Authorize] // Только для залогиненных
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateModel model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null) return NotFound("Пользователь не найден");
+
+            // Обновляем поля
+            user.Email = model.Email;
+            user.UserName = model.Email; // Обычно UserName совпадает с почтой
+            user.PhoneNumber = model.PhoneNumber;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Профиль обновлен" });
             }
 
             return BadRequest(result.Errors);
