@@ -11,6 +11,7 @@ namespace FinanceApi.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly CrmIntegrationService.Service1 _crmService = new CrmIntegrationService.Service1();
 
         public AccountController(UserManager<IdentityUser> userManager)
         {
@@ -50,6 +51,22 @@ namespace FinanceApi.Controllers
 
             if (result.Succeeded)
             {
+                try
+                {
+                    await _crmService.SendContactToCrm(
+                        "Новый пользователь",
+                        model.Email,
+                        false,
+                        "152",
+                        0
+                    );
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
                 return Ok(new { Message = "User registered successfully" });
             }
 
