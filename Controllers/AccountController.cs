@@ -1,4 +1,5 @@
 ﻿using FinanceApi.Models;
+using FinanceApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,12 @@ namespace FinanceApi.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly CrmIntegrationService.Service1 _crmService = new CrmIntegrationService.Service1();
+        private readonly CrmIntegrationService _crmService;
 
-        public AccountController(UserManager<IdentityUser> userManager)
+        public AccountController(UserManager<IdentityUser> userManager, CrmIntegrationService crmService)
         {
             _userManager = userManager;
+            _crmService = crmService;
         }
 
         [HttpGet("info")]

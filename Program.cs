@@ -1,6 +1,7 @@
+using FinanceApi.Data;
+using FinanceApi.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using FinanceApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+builder.Services.AddScoped<CrmIntegrationService>();
 
 var app = builder.Build();
 
