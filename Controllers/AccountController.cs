@@ -63,10 +63,9 @@ namespace FinanceApi.Controllers
                         0
                     );
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                    throw;
+                    Console.WriteLine($"Ошибка CRM: {ex.Message}");
                 }
 
                 return Ok(new { Message = "User registered successfully" });
