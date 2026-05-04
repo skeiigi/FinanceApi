@@ -45,7 +45,7 @@ namespace FinanceApi.Services
             catch (Exception ex)
             {
                 // Логирование ошибки
-                EventLog.WriteEntry("CrmIntegrationService", $"Ошибка при отправке данных в CRM: {ex.Message}", EventLogEntryType.Error);
+                Console.WriteLine($"[CRM Service Error]: {ex.ToString()}");
             }
         }
     }
