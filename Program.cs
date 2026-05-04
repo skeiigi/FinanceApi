@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders(); // Удаляем все стандартные провайдеры (включая EventLog)
+builder.Logging.AddConsole();    // Добавляем только вывод в консоль (Docker его подхватит)
+builder.Logging.AddDebug();      // Для отладки
+
 // --- НОВОЕ: Настройка порта для Railway ---
 // Railway передает порт через переменную окружения PORT. Если её нет, используем 8080.
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
