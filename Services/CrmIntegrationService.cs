@@ -17,7 +17,7 @@ namespace FinanceApi.Services
     {
         public static readonly HttpClient client = new HttpClient();
 
-        private const string WebhookUrl = "https://b24-5vw10r.bitrix24.ru/rest/1/sgmp4zixo4oq0i3g/crm.contact.add.json";
+        private const string WebhookUrl = "https://b24-5vw10r.bitrix24.ru/rest/1/ne25v7juv7mg7xhe/crm.contact.add.json";
 
         public async Task SendContactToCrm(string name, string email, bool notifications, string status, int income)
         {
